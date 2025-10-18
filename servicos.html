@@ -3,82 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serviços - Davi Novaes</title>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <title>Portfólio Davi Novaes!</title>
+  <link rel="stylesheet" href="css/style.css">
   <style>
-    /* cores dos cartões */
-    .html-card {
-      background-color: chocolate; /* HTML: laranja */
+    .card {
+      padding: 20px;
+      text-align: center;
       color: white;
+      border-radius: 8px;
+      margin: 10px;
     }
-    .css-card {
-      background-color: rgb(104, 18, 185); /* CSS: roxo */
-      color: white;
-    }
-    .js-card {
-      background-color: yellow; /* JS: amarelo */
-      color: black;
-    }
-    .py-java-card {
-      background: linear-gradient(to right, blue, red); /* Python & Java: azul/vermelho */
-      color: white;
-    }
+
+    .html-card { background-color: chocolate; }
+    .css-card { background-color: rgb(104, 18, 185); }
+    .js-card { background-color: yellow; color: black; }
+    .py-java-card { background: linear-gradient(to right, blue, red); }
+
+    .w3-row-padding { display: flex; flex-wrap: wrap; justify-content: center; }
+    .w3-quarter { flex: 0 0 22%; margin-bottom: 20px; min-width: 200px; }
   </style>
 </head>
 <body>
-  <!-- cabeçalho -->
-  <header class="w3-container w3-black w3-center">
+  <header class="w3-container w3-black w3-center w3-padding-32">
     <h1>Serviços</h1>
-    <p>O que eu sei e estou aprendendo</p>
+    <p>Minhas habilidades e conhecimentos</p>
   </header>
 
-  <!-- menu -->
-  <nav class="w3-bar w3-light-gray w3-card">
-    <a href="index.html" class="w3-bar-item w3-button w3-mobile">Início</a>
-    <a href="sobre.html" class="w3-bar-item w3-button w3-mobile">Sobre mim</a>
-    <a href="servicos.html" class="w3-bar-item w3-button w3-mobile">Serviços</a>
-    <a href="contato.html" class="w3-bar-item w3-button w3-mobile">Contato</a>
+  <nav class="w3-bar w3-light-gray w3-card w3-center">
+    <a href="index.html" class="w3-bar-item w3-button">Início</a>
+    <a href="sobre.html" class="w3-bar-item w3-button">Sobre mim</a>
+    <a href="servicos.html" class="w3-bar-item w3-button">Serviços</a>
+    <a href="contato.html" class="w3-bar-item w3-button">Contato</a>
   </nav>
 
-  <!-- seção principal -->
-  <section class="w3-container w3-padding-32">
-    <h2>Minhas habilidades</h2>
-    <p>Mesmo estando no início da minha jornada em programação, já adquiri algumas experiências práticas e continuo estudando para evoluir ainda mais.</p>
+  <section class="w3-container w3-padding-32 w3-center">
+    <h2>Minhas Habilidades</h2>
+    <p>Mesmo no início da minha jornada em programação, já adquiri algumas experiências práticas e continuo estudando para evoluir.</p>
 
     <div class="w3-row-padding w3-margin-top">
       <div class="w3-quarter">
-        <div class="w3-card w3-padding w3-center html-card">
+        <div class="card html-card">
           <h3>HTML</h3>
-          <p>Desenvolvo páginas estruturadas, organizadas e funcionais usando HTML.</p>
+          <p>Páginas estruturadas e funcionais.</p>
         </div>
       </div>
 
       <div class="w3-quarter">
-        <div class="w3-card w3-padding w3-center css-card">
+        <div class="card css-card">
           <h3>CSS</h3>
-          <p>Aplico estilos e deixo os sites mais bonitos e responsivos.</p>
+          <p>Estilos bonitos e responsivos para sites.</p>
         </div>
       </div>
 
       <div class="w3-quarter">
-        <div class="w3-card w3-padding w3-center js-card">
+        <div class="card js-card">
           <h3>JavaScript</h3>
-          <p>Já criei um joguinho simples e sei aplicar interatividade em páginas.</p>
+          <p>Interatividade em páginas e pequenos projetos.</p>
         </div>
       </div>
 
       <div class="w3-quarter">
-        <div class="w3-card w3-padding w3-center py-java-card">
+        <div class="card py-java-card">
           <h3>Python & Java</h3>
-          <p>Tenho contato com Python e estou iniciando meus estudos em Java, com foco em sistemas robustos.</p>
+          <p>Conhecimentos iniciais para sistemas mais complexos.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- rodapé -->
   <footer class="w3-container w3-black w3-center w3-padding-16">
-    <p>Davi Novaes - Análise e Desenvolvimento de Sistemas - ©2025</p>
+    <p>&copy; 2025 Davi Novaes</p>
   </footer>
 </body>
 </html>
