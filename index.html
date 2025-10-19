@@ -85,6 +85,15 @@
     font-size:12px;
     color:#234;
   }
+  ul.animated-list li{
+    opacity:0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+  }
+  ul.animated-list li.show{
+    opacity:1;
+    transform: translateY(0);
+  }
   footer.watermark{
     position:fixed;
     bottom:0;
@@ -107,7 +116,7 @@
 <div id="app" class="card">
   <h1>Preencha o briefing e obtenha o orçamento</h1>
 
-  <!-- FORMULÁRIO -->
+  <!-- FORMULÁRIO EXISTENTE -->
   <label>Nome do Cliente</label>
   <input type="text" v-model="form.cliente" placeholder="Ex: João da Silva">
 
@@ -135,6 +144,19 @@
   <div v-if="form.cores==='outro'" class="campo-dinamico">
     <input type="text" v-model="form.coresOutro" placeholder="Descreva aqui os tons desejados">
   </div>
+
+  <!-- NOVO: Janelas Dinâmicas -->
+  <label>Janelas do Site</label>
+  <div class="campo-dinamico">
+    <input type="text" v-model="novaJanela" placeholder="Ex: Contato, Sobre nós...">
+    <button type="button" @click="adicionarJanela">Adicionar</button>
+  </div>
+  <ul class="animated-list">
+    <li v-for="(janela, index) in janelas" :key="index" :class="{show:true}">
+      {{ janela }}
+    </li>
+  </ul>
+  <p>Total de janelas: {{ janelas.length }}</p>
 
   <label>Quantas páginas?</label>
   <div class="campo-dinamico">
@@ -171,12 +193,16 @@
     </label>
   </div>
 
+  <!-- Complexidade -->
   <label>Complexidade do design</label>
   <select v-model="form.complexidade">
     <option value="basico">Básico</option>
     <option value="custom">Custom</option>
     <option value="premium">Premium</option>
   </select>
+  <div style="margin-top:4px;color:#345e7a;font-size:13px;">
+    {{ descricaoComplexidade }}
+  </div>
 
   <label>Referências / Observações</label>
   <textarea v-model="form.referencias" placeholder="Cole links ou descreva o que gosta"></textarea>
@@ -194,11 +220,15 @@
       <li>Páginas extras: R$ {{ extraPerPage }} cada</li>
       <li>Complexidade: {{ complexityLabel }}</li>
       <li>Funcionalidades: {{ featureLabelsText }}</li>
+      <li v-if="janelas.length>0">Janelas: {{ janelas.join(', ') }}</li>
     </ul>
     <div class="installments">
-      <div v-for="opt in allowInstallments" :key="opt.label">
-        <strong>{{ opt.label }}</strong> - R$ {{ opt.perInstall.toFixed(2) }}/parcela (Total: R$ {{ opt.total.toFixed(2) }})
-      </div>
+      <strong>Parcelamento até 5x sem juros:</strong>
+      <ul>
+        <li v-for="n in 5" v-if="price>=n" :key="n">
+          {{ n }}x: R$ {{ (price/n).toFixed(2) }}
+        </li>
+      </ul>
     </div>
     <pre class="json">{{ exportPreview }}</pre>
   </div>
@@ -229,7 +259,9 @@ createApp({
         funcionalidades:[],
         complexidade:"basico",
         referencias:""
-      }
+      },
+      janelas:[],
+      novaJanela:""
     }
   },
   computed:{
@@ -241,16 +273,23 @@ createApp({
     displayPrice(){return this.price.toLocaleString('pt-BR')},
     featureLabelsText(){return this.form.funcionalidades.map(f=>f.replace(/([A-Z])/g," $1")).join(", ")||"Nenhuma"},
     complexityLabel(){return this.form.complexidade.charAt(0).toUpperCase()+this.form.complexidade.slice(1)},
-    allowInstallments(){
-      const p=this.price;
-      let arr=[];
-      if(p>=1000 && p<2000) arr.push({label:"2x sem juros",perInstall:p/2,total:p});
-      if(p>=2000) arr.push({label:"4x com juros",perInstall:(p*1.05)/4,total:p*1.05});
-      return arr;
+    descricaoComplexidade(){
+      const d={
+        basico:"💡 Site com até 3 páginas e design simples.",
+        custom:"✨ Design personalizado, até 6 páginas e pequenas interações.",
+        premium:"🚀 Site completo com animações, SEO e otimização de desempenho."
+      };
+      return d[this.form.complexidade]||"";
     },
-    exportPreview(){return JSON.stringify(this.form,null,2)}
+    exportPreview(){return JSON.stringify({...this.form,janelas:this.janelas},null,2)}
   },
   methods:{
+    adicionarJanela(){
+      const nome = this.novaJanela.trim();
+      if(!nome)return;
+      this.janelas.push(nome);
+      this.novaJanela="";
+    },
     gerarPDF(){
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -268,14 +307,14 @@ createApp({
         `Páginas: ${this.form.numeroPaginas}`,
         `Complexidade: ${complexity || 'Básico'}`,
         `Funcionalidades: ${this.featureLabelsText}`,
+        this.janelas.length>0?`Janelas: ${this.janelas.join(', ')}`:"",
         `Referências / Observações: ${this.form.referencias}`,
         `Valor total: R$ ${this.price.toLocaleString('pt-BR')}`
       ];
 
       let y=30;
-      lines.forEach(line => { doc.text(line,14,y); y+=8; });
+      lines.forEach(line => { if(line) { doc.text(line,14,y); y+=8; }});
 
-      // DN Dev com fonte cursiva/italica
       doc.setFont("times","italic");
       doc.setFontSize(12);
       doc.text("Desenvolvido por DN Dev",14,y+10);
