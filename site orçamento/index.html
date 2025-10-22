@@ -62,9 +62,6 @@
     margin-top:20px;
     color:#013a63;
   }
-  .price{display:flex;align-items:baseline;gap:8px;}
-  .price .big{font-size:26px;font-weight:800;}
-  .price .small{font-size:13px;color:#345e7a;opacity:.9;}
   .flex-row{
     display:flex;
     align-items:center;
@@ -72,18 +69,6 @@
     margin:4px 0;
     font-size:14px;
     color:#235272;
-  }
-  .installments{margin-top:10px;font-size:13px;color:#233b4e;}
-  pre.json{
-    margin-top:12px;
-    background:#f7fbff;
-    border:1px solid #e6f4ff;
-    padding:10px;
-    border-radius:8px;
-    max-height:190px;
-    overflow:auto;
-    font-size:12px;
-    color:#234;
   }
   ul.animated-list li{
     opacity:0;
@@ -114,9 +99,8 @@
 </head>
 <body>
 <div id="app" class="card">
-  <h1>Preencha o briefing e obtenha o orçamento</h1>
+  <h1>Preencha o briefing do site</h1>
 
-  <!-- FORMULÁRIO EXISTENTE -->
   <label>Nome do Cliente</label>
   <input type="text" v-model="form.cliente" placeholder="Ex: João da Silva">
 
@@ -145,7 +129,6 @@
     <input type="text" v-model="form.coresOutro" placeholder="Descreva aqui os tons desejados">
   </div>
 
-  <!-- NOVO: Janelas Dinâmicas -->
   <label>Janelas do Site</label>
   <div class="campo-dinamico">
     <input type="text" v-model="novaJanela" placeholder="Ex: Contato, Sobre nós...">
@@ -164,36 +147,16 @@
     <div style="font-size:13px;color:#6d8596;">(3 páginas básicas inclusas)</div>
   </div>
 
-  <!-- Funcionalidades com checkbox ao lado -->
   <label>Funcionalidades extras</label>
   <div>
-    <label class="flex-row">
-      <input type="checkbox" v-model="form.funcionalidades" value="formContato">
-      Formulário de contato
-    </label>
-    <label class="flex-row">
-      <input type="checkbox" v-model="form.funcionalidades" value="whatsapp">
-      Integração WhatsApp
-    </label>
-    <label class="flex-row">
-      <input type="checkbox" v-model="form.funcionalidades" value="login">
-      Login / Área restrita
-    </label>
-    <label class="flex-row">
-      <input type="checkbox" v-model="form.funcionalidades" value="cadastro">
-      Sistema de cadastro
-    </label>
-    <label class="flex-row">
-      <input type="checkbox" v-model="form.funcionalidades" value="galeria">
-      Galeria de imagens
-    </label>
-    <label class="flex-row">
-      <input type="checkbox" v-model="form.funcionalidades" value="blog">
-      Blog / Notícias
-    </label>
+    <label class="flex-row"><input type="checkbox" v-model="form.funcionalidades" value="formContato">Formulário de contato</label>
+    <label class="flex-row"><input type="checkbox" v-model="form.funcionalidades" value="whatsapp">Integração WhatsApp</label>
+    <label class="flex-row"><input type="checkbox" v-model="form.funcionalidades" value="login">Login / Área restrita</label>
+    <label class="flex-row"><input type="checkbox" v-model="form.funcionalidades" value="cadastro">Sistema de cadastro</label>
+    <label class="flex-row"><input type="checkbox" v-model="form.funcionalidades" value="galeria">Galeria de imagens</label>
+    <label class="flex-row"><input type="checkbox" v-model="form.funcionalidades" value="blog">Blog / Notícias</label>
   </div>
 
-  <!-- Complexidade -->
   <label>Complexidade do design</label>
   <select v-model="form.complexidade">
     <option value="basico">Básico</option>
@@ -207,35 +170,7 @@
   <label>Referências / Observações</label>
   <textarea v-model="form.referencias" placeholder="Cole links ou descreva o que gosta"></textarea>
 
-  <button class="btn-download" @click="gerarPDF">📁 Gerar PDF do orçamento</button>
-
-  <!-- RESUMO -->
-  <div class="right">
-    <div class="price">
-      <div class="big">R$ {{ displayPrice }}</div>
-      <div class="small">Orçamento estimado</div>
-    </div>
-    <ul class="features">
-      <li>Base inicial: R$ 900 (até 3 páginas)</li>
-      <li>Páginas extras: R$ {{ extraPerPage }} cada</li>
-      <li>Complexidade: {{ complexityLabel }}</li>
-      <li>Funcionalidades: {{ featureLabelsText }}</li>
-      <li v-if="janelas.length>0">Janelas: {{ janelas.join(', ') }}</li>
-    </ul>
-    <div class="installments">
-      <strong>Parcelamento até 5x sem juros:</strong>
-      <ul>
-        <li v-for="n in 5" v-if="price>=n" :key="n">
-          {{ n }}x: R$ {{ (price/n).toFixed(2) }}
-        </li>
-      </ul>
-    </div>
-    <pre class="json">{{ exportPreview }}</pre>
-  </div>
-
-  <footer class="watermark" :class="{active: showWatermark}">
-    DN Dev 💻
-  </footer>
+  <button class="btn-download" @click="gerarPDF">📁 Gerar PDF do briefing</button>
 </div>
 
 <script>
@@ -243,7 +178,6 @@ const { createApp } = Vue;
 createApp({
   data(){
     return {
-      showWatermark:false,
       baseMin:900,
       baseMax:5000,
       extraPerPage:120,
@@ -261,7 +195,8 @@ createApp({
         referencias:""
       },
       janelas:[],
-      novaJanela:""
+      novaJanela:"",
+      showWatermark:false
     }
   },
   computed:{
@@ -270,18 +205,14 @@ createApp({
     complexityCost(){return this.complexityCosts[this.form.complexidade]||0},
     estimatedRaw(){return this.baseMin+this.pagesExtraCost+this.featuresCost+this.complexityCost},
     price(){let p=Math.round(this.estimatedRaw);if(p>this.baseMax)p=this.baseMax;return p},
-    displayPrice(){return this.price.toLocaleString('pt-BR')},
     featureLabelsText(){return this.form.funcionalidades.map(f=>f.replace(/([A-Z])/g," $1")).join(", ")||"Nenhuma"},
     complexityLabel(){return this.form.complexidade.charAt(0).toUpperCase()+this.form.complexidade.slice(1)},
     descricaoComplexidade(){
-      const d={
-        basico:"💡 Site com até 3 páginas e design simples.",
-        custom:"✨ Design personalizado, até 6 páginas e pequenas interações.",
-        premium:"🚀 Site completo com animações, SEO e otimização de desempenho."
-      };
+      const d={basico:"💡 Site com até 3 páginas e design simples.",
+               custom:"✨ Design personalizado, até 6 páginas e pequenas interações.",
+               premium:"🚀 Site completo com animações, SEO e otimização de desempenho."};
       return d[this.form.complexidade]||"";
-    },
-    exportPreview(){return JSON.stringify({...this.form,janelas:this.janelas},null,2)}
+    }
   },
   methods:{
     adicionarJanela(){
@@ -294,10 +225,8 @@ createApp({
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
       doc.setFontSize(16);
-      doc.text("Resultado do orçamento do site",14,20);
+      doc.text("Briefing do site",14,20);
       doc.setFontSize(12);
-
-      const complexity = this.form.complexidade.charAt(0).toUpperCase()+this.form.complexidade.slice(1);
 
       const lines = [
         `Cliente: ${this.form.cliente}`,
@@ -305,37 +234,38 @@ createApp({
         `Estilo: ${this.form.estilo}`,
         `Cores: ${this.form.cores==='outro'?this.form.coresOutro:this.form.cores}`,
         `Páginas: ${this.form.numeroPaginas}`,
-        `Complexidade: ${complexity || 'Básico'}`,
+        `Complexidade: ${this.complexidadeLabel}`,
         `Funcionalidades: ${this.featureLabelsText}`,
         this.janelas.length>0?`Janelas: ${this.janelas.join(', ')}`:"",
-        `Referências / Observações: ${this.form.referencias}`,
-        `Valor total: R$ ${this.price.toLocaleString('pt-BR')}`
+        `Referências / Observações: ${this.form.referencias}`
       ];
 
       let y=30;
       lines.forEach(line => { if(line) { doc.text(line,14,y); y+=8; }});
 
-      doc.setFont("times","italic");
+      doc.setFont("helvetica","bold");
       doc.setFontSize(12);
-      doc.text("Desenvolvido por DN Dev",14,y+10);
+      doc.text("Desenvolvido por DN | Dev",14,y+10);
 
-      doc.save("orcamento_dn_dev.pdf");
-      this.showWatermark=true;
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    },
-    checkScroll(){
-      const scrollBottom = window.innerHeight + window.scrollY;
-      const docHeight = document.body.offsetHeight;
-      if(scrollBottom >= docHeight - 10){
-        this.showWatermark = true;
-      }
+      doc.save("briefing_dn_dev.pdf");
+
+      // Envia os dados essenciais para o Apps Script
+      fetch("https://script.google.com/macros/s/AKfycbyreP9rk6jJsihP9WBOupDR05Xtbq83UWfq2o2OdtjW4Yyy6F9zjtktfjxZIWNjjzn0BA/exec", {
+        method:"POST",
+        body: JSON.stringify({
+          cliente: this.form.cliente,
+          projeto: this.form.nomeProjeto,
+          valor: this.price
+        })
+      }).then(r=>console.log("Enviado para planilha")).catch(e=>console.error(e));
     }
   },
   mounted(){
-    window.addEventListener('scroll', this.checkScroll);
-  },
-  beforeUnmount(){
-    window.removeEventListener('scroll', this.checkScroll);
+    window.addEventListener('scroll',()=>{
+      if(window.innerHeight+window.scrollY >= document.body.offsetHeight - 10){
+        this.showWatermark=true;
+      }
+    });
   }
 }).mount('#app');
 </script>
