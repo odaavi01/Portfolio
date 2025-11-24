@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Contato | Portfólio DN Dev</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body { display: flex; flex-direction: column; min-height: 100vh; font-family: "Poppins", sans-serif; transition: background-color 0.3s, color 0.3s; margin:0; }
+  nav { display: flex; justify-content: center; gap: 20px; background: #f5f5f5; padding: 10px 0; border-bottom: 2px solid #ccc; transition: background-color 0.3s, color 0.3s; }
+  nav a { text-decoration: none; color: #222; font-weight: 600; transition: color 0.3s; }
+  nav a:hover, nav a.active { color: #8415ec; }
+
+  header { text-align: center; padding: 60px 20px 40px; flex:1; background-color: #f5f5f5; color: #222; transition: background-color 0.3s, color 0.3s; }
+
+  .icons { display: flex; justify-content: center; gap: 25px; margin-top: 30px; }
+  .icons a { font-size: 32px; color: #8415ec; transition: all 0.3s; }
+  .icons a:hover { transform: scale(1.2); color: #5c0db3; }
+
+  .contact-btn { display:inline-block; margin-top: 40px; padding:12px 22px; border-radius:10px; background:#8415ec; color:#fff; font-weight:600; text-decoration:none; transition: all 0.3s; }
+  .contact-btn:hover { background:#5c0db3; transform: translateY(-2px); }
+
+  footer { margin-top: auto; background: #f5f5f5; text-align: center; padding: 12px 0; border-top: 2px solid #ccc; color: #222; transition: background-color 0.3s, color 0.3s; }
+
+  #theme-toggle { position: fixed; right: 18px; bottom: 18px; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; z-index: 999; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: background-color 0.3s, color 0.3s, transform 0.3s; box-shadow: 0 4px 8px rgba(0,0,0,0.2); background-color: #8415ec; color: #fff; }
+  #theme-toggle:hover { transform: scale(1.1); }
+
+  body.dark { background-color: #1e1e1e; color: #f5f5f5; }
+  body.dark nav { background: #2a2a2a; border-bottom-color: #555; }
+  body.dark nav a { color: #f5f5f5; }
+  body.dark nav a:hover, body.dark nav a.active { color: #8415ec; }
+  body.dark header { background-color: #2a2a2a; color: #f5f5f5; }
+  body.dark footer { background-color: #2a2a2a; color: #f5f5f5; border-top-color: #555; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html">Início</a>
+  <a href="servicos.html">Serviços</a>
+  <a href="contato.html" class="active">Contato</a>
+</nav>
+
+<header>
+  <h1>Entre em <span style="color:#8415ec;">Contato</span></h1>
+  <p>Escolha a forma que preferir para falar comigo.</p>
+
+  <!-- ÍCONES DE CONTATO MINIMALISTAS -->
+  <div class="icons">
+  <a href="https://wa.me/5511932923666?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Tenho%20interesse%20em%20contratar%20seu%20trabalho%20de%20desenvolvimento%20web.%20Poderia%20me%20enviar%20o%20link%20para%20preencher%20as%20informa%C3%A7%C3%B5es%20do%20meu%20projeto%20e%20gerar%20o%20PDF%3F
+ target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+  <a href="https://mail.google.com/mail/?view=cm&to=odaavi.dev@gmail.com" target="_blank" title="E-mail"><i class="fas fa-envelope"></i></a>
+  <a href="https://github.com/odaavi01?tab=repositories" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+</div>
+
+  </div>
+
+  <!-- BOTÃO DE ORÇAMENTO -->
+  <a href="https://wa.me/5511932923666?text=Ol%C3%A1%2C%20tudo%20bem%3F%20Tenho%20interesse%20em%20contratar%20seu%20trabalho%20de%20desenvolvimento%20web.%20Poderia%20me%20enviar%20o%20link%20para%20preencher%20as%20informa%C3%A7%C3%B5es%20do%20meu%20projeto%20e%20gerar%20o%20PDF%3F" class="contact-btn" target="_blank">
+  Solicitar Orçamento
+</a>
+
+</header>
+
+<footer>
+  <small>© 2025 Davi Novaes — DN Dev</small>
+</footer>
+
+<button id="theme-toggle" title="Mudar tema">🌙</button>
+
+<script>
+  const themeToggle=document.getElementById('theme-toggle');
+  const savedTheme=localStorage.getItem('theme');
+  if(savedTheme==='dark'){ document.body.classList.add('dark'); themeToggle.textContent='☀️'; }
+  themeToggle.addEventListener('click',()=>{
+    document.body.classList.toggle('dark');
+    if(document.body.classList.contains('dark')){
+      themeToggle.textContent='☀️'; localStorage.setItem('theme','dark');
+    } else {
+      themeToggle.textContent='🌙'; localStorage.setItem('theme','light');
+    }
+  });
+</script>
+
+</body>
+</html>

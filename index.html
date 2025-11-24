@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Página Inicial | Portfólio DN Dev</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: "Poppins", sans-serif;
+    transition: background-color 0.5s, color 0.5s;
+    background-color: #f5f5f5;
+    color: #222;
+    margin:0;
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    background: #f5f5f5;
+    padding: 10px 0;
+    border-bottom: 2px solid #ccc;
+    transition: background-color 0.5s, border-color 0.5s;
+  }
+
+  nav a { text-decoration: none; color: #222; font-weight: 600; transition: color 0.3s; }
+  nav a:hover, nav a.active { color: #8415ec; }
+
+  header { text-align: center; padding: 60px 20px 40px; flex: 1; background-color: #f5f5f5; color: #222; transition: background-color 0.5s, color 0.5s; }
+
+  .buttons { margin-top: 25px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+
+  button.show-cards { background: #8415ec; border: none; color: #fff; font-weight: 600; border-radius: 10px; padding: 10px 16px; cursor: pointer; transition: all 0.3s; }
+  button.show-cards:hover { background: #5c0db3; transform: translateY(-2px); }
+
+  .cards-container { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 30px; opacity: 0; pointer-events: none; }
+
+  .card { width: 90%; max-width: 400px; padding: 20px; border-radius: 12px; color: #fff; text-align: center; display: flex; flex-direction: column; align-items: center; font-weight: 600; transform: translateY(20px); opacity: 0; box-shadow: 0 5px 12px rgba(0,0,0,0.2); cursor: pointer; transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.3s ease; background: #8415ec; }
+  .card span.symbol { font-size: 40px; margin-bottom: 10px; }
+  .card p { color: #fff; font-weight: 400; margin-top: 6px; }
+
+  .cards-container.grid-2x2 { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 20px; }
+  .cards-container.grid-2x2 .card { flex: 0 1 45%; max-width: 300px; margin-bottom: 20px; }
+  @media(max-width:768px){ .cards-container.grid-2x2 .card { flex: 0 1 45%; } }
+  @media(max-width:480px){ .cards-container.grid-2x2 .card { flex: 0 1 90%; } }
+
+  .service-btn { display: block; margin: 30px auto 0; padding: 14px 24px; border-radius: 10px; background:#8415ec; color:#fff; font-weight:600; text-decoration:none; transition: all 0.3s; }
+  .service-btn:hover { background:#5c0db3; transform: translateY(-2px); }
+
+  footer { margin-top: auto; background: #f5f5f5; text-align: center; padding: 12px 0; border-top: 2px solid #ccc; color: #222; transition: background-color 0.5s, color 0.5s, border-color 0.5s; }
+
+  #theme-toggle { position: fixed; right: 18px; bottom: 18px; width: 50px; height: 50px; border-radius: 50%; border: none; cursor: pointer; z-index: 999; font-size: 24px; display: flex; align-items: center; justify-content: center; transition: background-color 0.5s, color 0.5s, transform 0.3s; box-shadow: 0 4px 8px rgba(0,0,0,0.2); background-color: #8415ec; color: #fff; }
+  #theme-toggle:hover { transform: scale(1.1); }
+
+  body.dark { background-color: #1e1e1e; color: #f5f5f5; }
+  body.dark nav { background: #2a2a2a; border-bottom-color: #555; }
+  body.dark nav a { color: #f5f5f5; }
+  body.dark nav a:hover, body.dark nav a.active { color: #8415ec; }
+  body.dark header { background-color: #2a2a2a; color: #f5f5f5; }
+  body.dark footer { background-color: #2a2a2a; color: #f5f5f5; border-top-color: #555; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="active">Início</a>
+  <a href="servicos.html">Serviços</a>
+  <a href="contato.html">Contato</a>
+</nav>
+
+<header>
+  <h1>Bem-vindo ao <span style="color: #8415ec;">Meu Portfólio</span></h1>
+  <p>Confira minhas informações e curiosidades sobre minha formação e trabalho.</p>
+
+  <div class="buttons">
+    <button class="show-cards" data-section="quemSouEu">Quem Sou Eu</button>
+    <button class="show-cards" data-section="curiosidades">Curiosidades</button>
+  </div>
+
+  <div class="cards-container" id="quemSouEu">
+    <div class="card card-quem"><span class="symbol"><i class="fas fa-user"></i></span><strong>Quem Sou Eu?</strong><p>Sou o Davi Novaes, desenvolvedor web fascinado por tecnologia e focado em criar experiências digitais criativas e funcionais.</p></div>
+    <div class="card card-estudo"><span class="symbol"><i class="fas fa-book"></i></span><strong>O que Estudo?</strong><p>Curso ADS, aprendendo desenvolvimento web, lógica, banco de dados, front-end/back-end, metodologias ágeis e boas práticas.</p></div>
+    <div class="card card-trabalho"><span class="symbol"><i class="fas fa-laptop-code"></i></span><strong>O que Trabalho?</strong><p>Criação de websites responsivos e modernos. Já ajudei empresas a crescer socialmente e aumentar visibilidade com sites otimizados e design atraente.</p></div>
+    <a href="servicos.html" class="service-btn">Conhecer meus serviços</a>
+  </div>
+
+  <div class="cards-container grid-2x2" id="curiosidades">
+    <div class="card card-ifsp"><span class="symbol"><i class="fas fa-cogs"></i></span><strong>Automação Industrial</strong><p>Formado em Automação Industrial pelo Instituto Federal de São Paulo - Guarulhos, com conhecimento em sistemas automatizados.</p></div>
+    <div class="card card-musica"><span class="symbol"><i class="fas fa-music"></i></span><strong>Musicista</strong><p>Sou musicista formado pelo Conservatório Musical de Guarulhos, onde estudei por 3 anos.<br> Atualmente, toco na maior orquestra do Brasil.</p></div>
+    <div class="card card-ti"><span class="symbol"><i class="fas fa-computer"></i></span><strong>TI</strong><p>Atuação em TI, no hospital Unimed, oferecendo suporte à sistemas hospitalares para otimização de processos.</p></div>
+    <div class="card card-ingles"><span class="symbol"><i class="fas fa-language"></i></span><strong>Inglês</strong><p>Nível intermediário, capaz de ler textos técnicos e se comunicar no dia a dia.<br>Formado no Instituto Federal de São Paulo - Guarulhos</p></div>
+    <a href="servicos.html" class="service-btn">Conhecer meus serviços</a>
+  </div>
+
+</header>
+
+<footer>
+  <small>© 2025 Davi Novaes — DN Dev</small>
+</footer>
+
+<button id="theme-toggle" title="Mudar tema">🌙</button>
+
+<script>
+  // Cards
+  const sections = document.querySelectorAll(".cards-container");
+  sections.forEach(sec => { sec.style.display="none"; sec.style.opacity=0; });
+  const buttons = document.querySelectorAll(".show-cards");
+  buttons.forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      const sectionId=btn.getAttribute("data-section");
+      sections.forEach(sec=>{
+        if(sec.id===sectionId){
+          sec.style.display="flex"; sec.style.pointerEvents="auto";
+          setTimeout(()=>sec.style.opacity=1,50);
+          const cards = sec.querySelectorAll(".card");
+          cards.forEach((card,index)=>{
+            card.style.opacity=0; card.style.transform="translateY(20px)";
+            setTimeout(()=>{ card.style.opacity=1; card.style.transform="translateY(0)"; }, index*150);
+          });
+        } else {
+          sec.style.opacity=0; sec.style.pointerEvents="none";
+          const cards = sec.querySelectorAll(".card");
+          cards.forEach(card=>{ card.style.opacity=0; card.style.transform="translateY(20px)"; });
+          setTimeout(()=>sec.style.display="none",400);
+        }
+      });
+    });
+  });
+
+  // Tema persistente
+  const themeToggle=document.getElementById('theme-toggle');
+  const savedTheme=localStorage.getItem('theme');
+  if(savedTheme==='dark'){ document.body.classList.add('dark'); themeToggle.textContent='☀️'; }
+  themeToggle.addEventListener('click',()=>{
+    document.body.classList.toggle('dark');
+    if(document.body.classList.contains('dark')){
+      themeToggle.textContent='☀️';
+      localStorage.setItem('theme','dark');
+    }else{
+      themeToggle.textContent='🌙';
+      localStorage.setItem('theme','light');
+    }
+  });
+</script>
+
+</body>
+</html>
