@@ -62,10 +62,7 @@
   /* Projetos */
   .projects-wrapper { text-align:center; margin-top:50px; }
 
-  .projects-container {
-    margin-top:20px;
-    display:none;
-  }
+  .projects-container { margin-top:20px; display:none; }
 
   .project-card {
     width: 90%;
@@ -86,6 +83,18 @@
   .project-card p { margin-bottom: 12px; }
   .project-card a { color: #8415ec; font-weight: 600; text-decoration: none; }
   .project-card:hover { transform: translateY(-5px); box-shadow: 0 0 18px rgba(132,21,236,0.4); }
+
+  /* Aviso card */
+  .warning-card {
+    background: #f5c242;
+    color: #222;
+    border: 2px solid #e6b800;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  .warning-card.visible { opacity: 1; transform: translateY(0); }
+  body.dark .warning-card { background: #e6a700; color: #fff; border-color: #b38600; }
 </style>
 </head>
 <body>
@@ -116,6 +125,17 @@
 <!-- BOTÃO DE PROJETOS -->
 <div class="projects-wrapper">
   <button class="show-projects">Projetos desenvolvidos</button>
+
+  <!-- AVISO COMO CARD -->
+<div class="project-card warning-card">
+  <h3>⚠️ Aviso de Visualização</h3>
+  <p>Para aproveitar melhor o site, recomendo visualizar no modo desktop do navegador:</p>
+  <ul style="text-align:left; padding-left:20px; margin-top:10px;">
+    <li>📱 <strong>Android (Chrome):</strong> Clique nos 3 pontinhos → "Visualizar como computador"</li>
+    <li>🍎 <strong>iOS (Safari):</strong> Clique no botão de compartilhamento → "Visualização desktop"</li>
+  </ul>
+</div>
+
 
   <div class="projects-container">
     <div class="project-card">
@@ -167,17 +187,25 @@
     const showProjectsBtn = document.querySelector(".show-projects");
     const projectsContainer = document.querySelector(".projects-container");
     const projectCards = document.querySelectorAll(".project-card");
+    const mobileWarning = document.querySelector(".warning-card");
 
     showProjectsBtn.addEventListener("click", () => {
       const visible = projectsContainer.style.display === "block";
       projectsContainer.style.display = visible ? "none" : "block";
 
       if (!visible) {
+        // Mostra cards de projetos
         projectCards.forEach((card, index) => {
           setTimeout(() => {
             card.classList.add("visible");
           }, index * 150);
         });
+
+        // Mostra aviso como card
+        mobileWarning.classList.add("visible");
+      } else {
+        // Esconde aviso
+        mobileWarning.classList.remove("visible");
       }
     });
 
